@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Alan Francisco Sandoval</title>
+
+    <!-- Remix Icon -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Pill navbar -->
+    <nav class="navbar">
+      <div class="nav-inner container">
+        <a class="brand" href="#">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 4h16v16H4z" fill="currentColor" />
+          </svg>
+          <span>Alan Sandoval</span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#">About</a></li>
+          <li><a href="#work">Projects</a></li>
+          <li><a href="#cta">Resume</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <a class="btn btn--primary btn--small" href="#cta">Contact</a>
+          <button
+            class="nav-toggle"
+            aria-label="Open menu"
+            aria-controls="mobile-drawer"
+            aria-expanded="false"
+          >
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile drawer + backdrop -->
+    <div class="backdrop" data-close></div>
+    <aside id="mobile-drawer" class="mobile-drawer">
+      <button class="drawer-close" aria-label="Close menu" data-close>✕</button>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#work">Projects</a></li>
+        <li><a href="#cta">Resume</a></li>
+      </ul>
+    </aside>
+
+    <!-- Hero -->
+    <header class="hero">
+      <div class="container hero-grid">
+        <!-- 1) Title + intro -->
+        <div class="hero-title">
+          <h1>Alan Francisco Sandoval</h1>
+          <p>
+            I’m a computer science student at The University of Texas Rio Grande
+            Valley, focused on building practical solutions and sharpening my
+            fundamentals. I have a passion for turning ideas into real-world
+            applications, whether it’s AI, web development, mobile apps, or
+            simple automation scripts. I enjoy working across all areas of
+            development and maintain a strong interest in exploring diverse
+            technologies and practices.
+          </p>
+        </div>
+
+        <!-- 2) Photo (rename file or adjust path if different) -->
+        <div class="hero-media">
+          <img
+            src="images/My profile picture.jpg"
+            alt="Photo of Alan Francisco Sandoval"
+          />
+        </div>
+
+        <!-- 3) CTAs -->
+        <div class="cta-row">
+          <a class="btn btn--primary" href="#work">
+            My Projects <span class="arrow" aria-hidden="true">→</span>
+          </a>
+          <a
+            class="btn btn--ghost"
+            href="https://github.com/"
+            target="_blank"
+            rel="noreferrer"
+            >My Github</a
+          >
+        </div>
+
+        <!-- 4) Socials (Remix Icons) -->
+        <div class="socials">
+          <span class="label">Socials:</span>
+          <a href="#" aria-label="YouTube"><i class="ri-youtube-fill"></i></a>
+
+          <a href="#" aria-label="LinkedIn"
+            ><i class="ri-linkedin-box-fill"></i
+          ></a>
+        </div>
+      </div>
+    </header>
+
+    <script>
+      // Mobile drawer toggle
+      const toggle = document.querySelector(".nav-toggle");
+      const drawer = document.getElementById("mobile-drawer");
+      const backdrop = document.querySelector(".backdrop");
+
+      function closeDrawer() {
+        drawer.classList.remove("open");
+        backdrop.classList.remove("open");
+        toggle.setAttribute("aria-expanded", "false");
+      }
+      toggle.addEventListener("click", () => {
+        const open = drawer.classList.toggle("open");
+        backdrop.classList.toggle("open", open);
+        toggle.setAttribute("aria-expanded", String(open));
+      });
+      backdrop.addEventListener("click", closeDrawer);
+      document
+        .querySelectorAll("#mobile-drawer a,[data-close]")
+        .forEach((el) => {
+          el.addEventListener("click", closeDrawer);
+        });
+    </script>
+    <script>
+      // --- Hide navbar on scroll down, show on scroll up (mobile + desktop) ---
+      const navbar = document.querySelector(".navbar");
+      const drawerEl = document.getElementById("mobile-drawer");
+
+      let lastY = window.scrollY;
+      let ticking = false;
+
+      // Tuning knobs
+      const MIN_START = 24; // don't hide until we've moved this far from the top
+      const DELTA = 12; // ignore tiny scroll jitter
+
+      function handleScroll() {
+        const y = Math.max(window.scrollY, 0);
+        const dy = y - lastY;
+
+        // If mobile drawer is open, keep nav visible
+        if (drawerEl && drawerEl.classList.contains("open")) {
+          navbar.classList.remove("nav--hidden");
+          navbar.classList.add("nav--pinned");
+          lastY = y;
+          return;
+        }
+
+        if (y <= MIN_START) {
+          // Near the top: always show
+          navbar.classList.remove("nav--hidden");
+          navbar.classList.add("nav--pinned");
+        } else if (Math.abs(dy) > DELTA) {
+          if (dy > 0) {
+            // scrolling down
+            navbar.classList.add("nav--hidden");
+            navbar.classList.remove("nav--pinned");
+          } else {
+            // scrolling up
+            navbar.classList.remove("nav--hidden");
+            navbar.classList.add("nav--pinned");
+          }
+        }
+
+        lastY = y;
+      }
+
+      window.addEventListener(
+        "scroll",
+        () => {
+          if (!ticking) {
+            requestAnimationFrame(() => {
+              handleScroll();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        },
+        { passive: true }
+      );
+
+      // Ensure nav is shown when interacting with the drawer or resizing
+      function pinNav() {
+        navbar.classList.remove("nav--hidden");
+        navbar.classList.add("nav--pinned");
+      }
+      document.querySelector(".nav-toggle")?.addEventListener("click", pinNav);
+      document.querySelector(".backdrop")?.addEventListener("click", pinNav);
+      document
+        .querySelectorAll("#mobile-drawer a,[data-close]")
+        .forEach((el) => {
+          el.addEventListener("click", pinNav);
+        });
+      window.addEventListener("resize", pinNav);
+    </script>
+
+    <section id="experience" class="experience">
+      <div class="container">
+        <div class="kicker">My Experience</div>
+        <h2 class="section-title center">
+          I design and develop, user-friendly websites that deliver practical
+          solutions with visual impact.
+        </h2>
+
+        <div class="xp-grid">
+          <!-- Front-end -->
+          <article class="xp-card">
+            <img
+              class="xp-media"
+              src="images/css.webp"
+              alt="Front-end UI preview"
+            />
+            <div class="xp-body">
+              <h3>Front-End Development</h3>
+              <p>
+                Responsive, accessible interfaces with HTML, CSS, and modern
+                JavaScript — leveraging React/Next.js, TypeScript, Tailwind CSS,
+                and motion for refined UX.
+              </p>
+              <ul class="xp-points">
+                <li>
+                  <i class="ri-checkbox-circle-line"></i> Reusable components,
+                  dark mode, theming
+                </li>
+                <li>
+                  <i class="ri-checkbox-circle-line"></i> Performance, SEO,
+                  image optimization
+                </li>
+                <li>
+                  <i class="ri-checkbox-circle-line"></i> Polished
+                  micro-interactions & animation
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- Back-end -->
+          <article class="xp-card">
+            <img
+              class="xp-media"
+              src="images/Backend.jpg"
+              alt="Backend chip/infra preview"
+            />
+            <div class="xp-body">
+              <h3>Back-End Development</h3>
+              <p>
+                Scalable APIs and services with Node.js — auth, data models, and
+                cloud storage; comfortable with Postgres/Supabase and REST
+                integrations.
+              </p>
+              <ul class="xp-points">
+                <li>
+                  <i class="ri-checkbox-circle-line"></i> Authentication,
+                  sessions, secure routes
+                </li>
+                <li>
+                  <i class="ri-checkbox-circle-line"></i> File/image storage,
+                  uploads, CDN
+                </li>
+                <li>
+                  <i class="ri-checkbox-circle-line"></i> Testing and error
+                  handling for reliability
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <!-- Automation / Full-stack -->
+          <article class="xp-card">
+            <img
+              class="xp-media"
+              src="images/Front-End.jpg"
+              alt="Full-stack app preview"
+            />
+            <div class="xp-body">
+              <h3>Full-Stack & Automation</h3>
+              <p>
+                End-to-end solutions that connect front-end and back-end with
+                real APIs. Automation scripts in Python/JS to streamline
+                workflows and data syncs.
+              </p>
+              <ul class="xp-points">
+                <li>
+                  <i class="ri-checkbox-circle-line"></i> Third-party API
+                  integrations (e.g., commerce, social)
+                </li>
+                <li>
+                  <i class="ri-checkbox-circle-line"></i> Data pipelines,
+                  CSV/Sheets imports & exports
+                </li>
+                <li>
+                  <i class="ri-checkbox-circle-line"></i> Deployment on Vercel &
+                  cloud services
+                </li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="work" class="projects-band">
+      <div class="container">
+        <div class="kicker kicker--dark">Selected Work</div>
+
+        <h2 class="projects-title">Projects Showcase</h2>
+        <p class="projects-lede">
+          A few examples of what I’ve built—balancing real product needs with
+          clean, maintainable code.
+        </p>
+
+        <!-- <a class="btn btn--light" href="#projects">
+          Explore my projects <span class="arrow">→</span>
+        </a> -->
+
+        <div class="card-grid">
+          <!-- 1) Shopify Store -->
+          <a
+            class="p-card"
+            href="/projects/shopify-store/index.html"
+            target=""
+            rel="noreferrer"
+            aria-label="Shopify Store"
+          >
+            <div class="p-icon"><i class="ri-store-2-line"></i></div>
+            <h3>Twins Jewelry Co.</h3>
+            <p>
+              Full-featured custom storefront with collections, product
+              variants, SEO, analytics-ready setup, and a robust custom backend
+              built with Python for product uploads, updates, and sales
+              automation.
+            </p>
+            <ul class="tags">
+              <li>Shopify</li>
+              <li>Liquid</li>
+              <li>Python</li>
+              <li>Amazon S3</li>
+              <li>Theme</li>
+            </ul>
+          </a>
+
+          <!-- 2) E-commerce Automation -->
+          <a
+            class="p-card"
+            href="/projects/ecommerce-automation/index.html"
+            target=""
+            rel="noreferrer"
+            aria-label="E-commerce Automation"
+          >
+            <div class="p-icon"><i class="ri-shopping-bag-3-line"></i></div>
+            <h3>E-commerce Automation</h3>
+            <p>
+              Bulk pricing/variant updates scripts built on large marketplace
+              sites like eBay, Amazon, and Etsy.
+            </p>
+            <ul class="tags">
+              <li>Python</li>
+              <li>APIs</li>
+              <li>Automation</li>
+              <li>Data Sync</li>
+            </ul>
+          </a>
+
+          <!-- 3) Cosmo Booking/Admin -->
+          <a
+            class="p-card"
+            href="/projects/cosmo-booking/index.html"
+            target=""
+            rel="noreferrer"
+            aria-label="Cosmetology Booking and Admin"
+          >
+            <div class="p-icon"><i class="ri-scissors-2-line"></i></div>
+            <h3>Cosmo Booking & Admin</h3>
+            <p>
+              Next.js + Supabase app with admin dashboard, bookings, and email
+              confirmations.
+            </p>
+            <ul class="tags">
+              <li>Next.js</li>
+              <li>Supabase</li>
+              <li>Email</li>
+            </ul>
+          </a>
+
+          <!-- 4) Restaurant Website -->
+          <a
+            class="p-card"
+            href="/projects/restaurant-website/index.html"
+            target=""
+            rel="noreferrer"
+            aria-label="Restaurant Website"
+          >
+            <div class="p-icon"><i class="ri-restaurant-2-line"></i></div>
+            <h3>Restaurant Website</h3>
+            <p>
+              Menu, hours, location, and gallery—mobile-friendly and SEO-tuned
+              for local discovery.
+            </p>
+            <ul class="tags">
+              <li>React</li>
+              
+            </ul>
+          </a>
+
+          <!-- 5) Reflection Journal -->
+          <a
+            class="p-card"
+            href="/projects/reflection-journal/index.html"
+            target=""
+            rel="noreferrer"
+            aria-label="Reflection Journal"
+          >
+            <div class="p-icon"><i class="ri-book-2-line"></i></div>
+            <h3>Reflection Journal</h3>
+            <p>
+              Next.js + Supabase journal exploring theology with auth and
+              role-based access.
+            </p>
+            <ul class="tags">
+              <li>Next.js</li>
+              <li>Supabase</li>
+              <li>Auth</li>
+            </ul>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="cta" class="cta-band">
+      <div class="container">
+        <h2 class="cta-heading">Interested in Working Together?</h2>
+
+        <div class="cta-grid">
+          <!-- Card 1: Clients -->
+          <article class="cta-card">
+            <h3>Websites & Storefronts for Local Businesses</h3>
+            <p>
+              I build simple, self-managed sites on user-friendly platforms
+              (e.g., Shopify) so your team can own updates. When you need more,
+              I deliver custom builds with the right backend and frameworks,
+              plus integrations and automations tailored to your business.
+            </p>
+            <a class="btn btn--primary" href="#contact"
+              >Contact me and share your idea</a
+            >
+          </article>
+
+          <!-- Card 2: Recruiters -->
+          <article class="cta-card">
+            <h3>Employment Opportunities</h3>
+            <p>
+              Computer science student with hands-on experience across the
+              stack: React/Next.js & TypeScript,Tailwind, Node.js and
+              JavaScript/Java/C++, and data on PostgreSQL/Supabase/Firebase.
+              I’ve shipped API-driven features and automations (Shopify, Stripe,
+              Google Sheets, Etsy/eBay, S3) and I’m open to full-time frontend,
+              backend, or full-stack roles—quick to learn whatever the team
+              uses.
+            </p>
+            <a
+              class="btn btn--primary"
+              href="resume.pdf"
+              target="_blank"
+              rel="noreferrer"
+            >
+              View Resume (PDF)
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <a href="#" aria-label="Terms of Service">Terms of Service</a>
+        <a href="#" aria-label="Privacy Policy">Privacy Policy</a>
+        <span class="copyright">© 2025 Alan Francisco Sandoval.</span>
+      </div>
+    </footer>
+  </body>
+</html>

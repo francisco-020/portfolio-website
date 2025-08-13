@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><!-- {{PAGE TITLE}} --></title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+  <!-- Navbar (links point back to home anchors) -->
+  <nav class="navbar">
+    <div class="nav-inner container">
+      <a class="brand" href="/"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4z" fill="currentColor"/></svg><span>Alan Sandoval</span></a>
+      <ul class="nav-links">
+        <li><a href="#">About</a></li>
+        <li><a href="#work">Projects</a></li>
+        <li><a href="/#cta">Resume</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a class="btn btn--primary btn--small" href="/#cta">Contact</a>
+        <button class="nav-toggle" aria-label="Open menu" aria-controls="mobile-drawer" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="backdrop" data-close></div>
+  <aside id="mobile-drawer" class="mobile-drawer">
+    <button class="drawer-close" aria-label="Close menu" data-close>✕</button>
+    <ul>
+      <li><a href="/#work">Projects</a></li>
+      <li><a href="#">Youtube</a></li>
+      <li><a href="/#about">About</a></li>
+      <li><a href="/#cta">Contact</a></li>
+    </ul>
+  </aside>
+
+  <main class="project-wrap">
+    <div class="container">
+      <header class="project-header">
+        <h1><!-- {{H1}} --></h1>
+        <p class="project-sub"><!-- {{ONE-LINER OUTCOME}} --></p>
+        <ul class="project-meta">
+          <li><i class="ri-user-3-line"></i> <strong>Role:</strong>&nbsp; <!-- {{ROLE}} --></li>
+          <li><i class="ri-tools-line"></i> <strong>Stack:</strong>&nbsp; <!-- {{STACK}} --></li>
+        </ul>
+      </header>
+
+      <section class="project-body">
+        <article>
+          <h2>Overview</h2>
+          <p><!-- {{OVERVIEW}} --></p>
+
+          <h2>Highlights</h2>
+          <ul class="project-highlights">
+            <li><i class="ri-checkbox-circle-line"></i><!-- {{POINT 1}} --></li>
+            <li><i class="ri-checkbox-circle-line"></i><!-- {{POINT 2}} --></li>
+            <li><i class="ri-checkbox-circle-line"></i><!-- {{POINT 3}} --></li>
+          </ul>
+
+          <div class="project-links">
+            <a class="btn btn--primary" href="#" target="_blank" rel="noreferrer" aria-label="Visit website">Visit Website</a>
+            <a class="btn btn--ghost" href="#" target="_blank" rel="noreferrer" aria-label="View code on GitHub">&lt;/&gt; View Code</a>
+          </div>
+        </article>
+
+        <!-- (Optional) If you want a gallery later, re-add this:
+        <aside>
+          <div class="project-gallery">
+            <img src="/images/example-1.jpg" alt="Screenshot 1">
+            <img src="/images/example-2.jpg" alt="Screenshot 2">
+          </div>
+        </aside>
+        -->
+      </section>
+
+      <nav class="project-nav" aria-label="Project navigation">
+        <div class="project-prevnext">
+          <a class="btn btn--ghost" href="<!-- {{PREV URL}} -->">← Previous</a>
+          <a class="btn btn--primary" href="<!-- {{NEXT URL}} -->">Next project →</a>
+        </div>
+
+        <div class="project-pills" role="list" aria-label="All projects">
+          <!-- Mark the current one active (no href) -->
+          <a class="project-pill" href="/projects/shopify-store/">Shopify Store</a>
+          <a class="project-pill" href="/projects/ecommerce-automation/">Automation</a>
+          <a class="project-pill" href="/projects/cosmo-booking/">Cosmo Booking</a>
+          <a class="project-pill" href="/projects/restaurant-website/">Restaurant</a>
+          <a class="project-pill" href="/projects/reflection-journal/">Journal</a>
+        </div>
+
+        <div><a href="/#work">Back to selected work</a></div>
+      </nav>
+    </div>
+  </main>
+
+  <!-- same JS you use on home for drawer + hide-on-scroll -->
+  <script>
+    const toggle = document.querySelector(".nav-toggle");
+    const drawer = document.getElementById("mobile-drawer");
+    const backdrop = document.querySelector(".backdrop");
+    function closeDrawer(){drawer.classList.remove("open");backdrop.classList.remove("open");toggle?.setAttribute("aria-expanded","false");}
+    toggle?.addEventListener("click",()=>{const open=drawer.classList.toggle("open");backdrop.classList.toggle("open",open);toggle.setAttribute("aria-expanded",String(open));});
+    backdrop?.addEventListener("click",closeDrawer);
+    document.querySelectorAll("#mobile-drawer a,[data-close]").forEach(el=>el.addEventListener("click",closeDrawer));
+
+    const navbar=document.querySelector(".navbar");const drawerEl=document.getElementById("mobile-drawer");
+    let lastY=window.scrollY,ticking=false;const MIN_START=24,DELTA=12;
+    function handleScroll(){const y=Math.max(window.scrollY,0),dy=y-lastY;
+      if(drawerEl&&drawerEl.classList.contains("open")){navbar.classList.remove("nav--hidden");navbar.classList.add("nav--pinned");lastY=y;return;}
+      if(y<=MIN_START){navbar.classList.remove("nav--hidden");navbar.classList.add("nav--pinned");}
+      else if(Math.abs(dy)>DELTA){if(dy>0){navbar.classList.add("nav--hidden");navbar.classList.remove("nav--pinned");}else{navbar.classList.remove("nav--hidden");navbar.classList.add("nav--pinned");}}
+      lastY=y;}
+    window.addEventListener("scroll",()=>{if(!ticking){requestAnimationFrame(()=>{handleScroll();ticking=false;});ticking=true;}},{passive:true});
+    window.addEventListener("resize",()=>{navbar.classList.remove("nav--hidden");navbar.classList.add("nav--pinned");});
+  </script>
+</body>
+</html>
