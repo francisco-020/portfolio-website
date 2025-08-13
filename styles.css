@@ -798,3 +798,24 @@ html {
   --link-color: #111827;
   --link-hover: #0f172a;
 }
+/* --- Mobile: center the hero image and its crop --- */
+@media (max-width: 640px) {
+  .hero-grid {
+    justify-items: center;       /* centers grid children horizontally */
+  }
+
+  .hero-media {
+    display: flex;               /* center the image inside its container */
+    justify-content: center;
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .hero-media img {
+    display: block;
+    width: min(520px, 100%);     /* use full width on phones */
+    max-width: 420px;            /* optional visual cap */
+    margin-inline: auto;         /* belt & suspenders centering */
+    object-position: center;     /* override the 65% 35% crop */
+  }
+}
