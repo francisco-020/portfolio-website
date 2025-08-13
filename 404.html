@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Page not found – afsdev</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="/favicon.ico" />
+  <style>
+    :root { --bg:#0b0b10; --fg:#eaeef3; --muted:#9aa4b2; --accent:#7c3aed; }
+    @media (prefers-color-scheme: light) {
+      :root { --bg:#ffffff; --fg:#0f172a; --muted:#475569; --accent:#6366f1; }
+    }
+    html,body{height:100%}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+         background:var(--bg);color:var(--fg);display:grid;place-items:center}
+    .card{max-width:560px;padding:48px 24px;text-align:center;border-radius:16px;
+          box-shadow:0 10px 30px rgba(0,0,0,.15);border:1px solid rgba(255,255,255,.06)}
+    .code{font-size:80px;font-weight:800;letter-spacing:.04em;margin:0 0 8px}
+    .desc{margin:0 0 24px;color:var(--muted)}
+    .actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .btn{padding:10px 16px;border-radius:10px;text-decoration:none;border:1px solid transparent}
+    .btn.primary{background:var(--accent);color:#fff}
+    .btn.ghost{border-color:rgba(255,255,255,.2);color:var(--fg)}
+  </style>
+</head>
+<body>
+  <main class="card" role="main" aria-labelledby="title">
+    <h1 id="title" class="code">404</h1>
+    <p class="desc">Sorry, that page doesn’t exist (or it moved).</p>
+    <div class="actions">
+      <a class="btn primary" href="/">Back to Home</a>
+      <a class="btn ghost" href="/#projects">View Projects</a>
+      <a class="btn ghost" href="mailto:you@example.com">Contact me</a>
+    </div>
+  </main>
+</body>
+</html>
